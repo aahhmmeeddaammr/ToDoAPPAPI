@@ -11,6 +11,7 @@ interface TaskApi {
 export const useTaskServices = () => {
   const [task, setTask] = useState("");
   const [taskDesc, setTaskDesc] = useState("");
+  const [loading, setLoading] = useState(false);
   const context = useContext(TasksContext);
   const navigate = useNavigate();
   if (!context) {
@@ -18,6 +19,12 @@ export const useTaskServices = () => {
   }
   const { tasks, setTasks } = context;
   const addTask = () => {
+    setLoading(true);
+    if (task.length == 0 || taskDesc.length == 0) {
+      setLoading(false);
+      toast.error("Please Add Valid Data");
+      return
+    }
     const newTask: TaskApi = {
       Title: task,
       Description: taskDesc,
@@ -40,7 +47,11 @@ export const useTaskServices = () => {
           toast.error("Please Login First");
           navigate("/login");
         }
+        toast.error("Error Occurred while creating task");
         console.error(err.response?.data || err.message);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
   const getAllTasks = () => {
@@ -66,5 +77,6 @@ export const useTaskServices = () => {
     getAllTasks,
     tasks,
     setTasks,
+    loading,
   };
 };

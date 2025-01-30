@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { InputTypes } from "../../lib/common/InputTypes";
 
 const Home = () => {
-  const { addTask, setTask, setTaskDesc, task, taskDesc, getAllTasks, tasks } =
+  const {loading, addTask, setTask, setTaskDesc, task, taskDesc, getAllTasks, tasks } =
     useTaskServices();
 
   useEffect(() => {
@@ -54,6 +54,7 @@ const Home = () => {
               onClick={() => {
                 addTask();
               }}
+              isLoading={loading}
             />
           </div>
 

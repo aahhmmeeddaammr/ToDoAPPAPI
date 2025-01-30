@@ -4,7 +4,7 @@ import TaskDialog from "../TaskDialog/TaskDialog";
 import UseTaskServices from "./Services/useTaskServices";
 
 const Task = ({ task }: { task: ITask }) => {
-  const { deleteTask } = UseTaskServices();
+  const { loading, deleteTask } = UseTaskServices();
   const [showModal, setShowModal] = useState(false);
   return (
     <>
@@ -22,6 +22,7 @@ const Task = ({ task }: { task: ITask }) => {
           }}
           label="Delete"
           variant="Delete"
+          isLoading={loading}
         />
       </li>
 

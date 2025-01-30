@@ -8,7 +8,9 @@ interface TaskDialogProps {
 }
 const TaskDialog = ({ taskId }: TaskDialogProps) => {
   const [task, setTask] = useState<ITask | null>(null);
+  const [loading, setLoading] = useState(false);
   const Finalize = () => {
+    setLoading(true);
     axios
       .patch(
         `${Base_URL}/task/finalize-task/${taskId}`,
@@ -25,6 +27,9 @@ const TaskDialog = ({ taskId }: TaskDialogProps) => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
   const getTask = () => {
@@ -90,6 +95,7 @@ const TaskDialog = ({ taskId }: TaskDialogProps) => {
           }}
           label="Finalize"
           variant="Primary"
+          isLoading={loading}
         />
       </div>
     </div>
