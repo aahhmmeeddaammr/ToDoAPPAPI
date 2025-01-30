@@ -1,0 +1,11 @@
+.Primary{
+    @apply bg-primary text-white px-5 py-2  rounded-lg shadow-md my-2 hover:bg-opacity-80 transition-all
+}
+
+.Delete{
+    @apply bg-red-600 text-white px-5 py-2  rounded-lg shadow-md my-2 hover:bg-opacity-80 transition-all
+}
+
+.Update{
+    @apply bg-cyan-400 text-black px-5 py-2  rounded-lg shadow-md my-2 hover:bg-opacity-80 transition-all
+}

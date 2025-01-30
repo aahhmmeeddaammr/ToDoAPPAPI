@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+button:disabled{
+    @apply  opacity-50 hover:bg-opacity-100
+}
