@@ -1,5 +1,4 @@
 import { createContext, useState, ReactNode } from "react";
-import { ITask } from "../../lib/types";
 
 interface TasksContextType {
   tasks: ITask[];
