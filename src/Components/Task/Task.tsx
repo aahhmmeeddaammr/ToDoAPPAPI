@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ITask } from "../../lib/types";
 import Button from "../Button/Button";
 import TaskDialog from "../TaskDialog/TaskDialog";
 import UseTaskServices from "./Services/useTaskServices";
