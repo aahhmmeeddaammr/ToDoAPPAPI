@@ -4,7 +4,7 @@ import UseSignUp from "./useSignUp";
 import Button from "../Button/Button";
 
 const SignUp = () => {
-  const { Fields, singUp } = UseSignUp();
+  const { Fields, singUp , loading } = UseSignUp();
   return (
     <div>
       <div className="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-xl dark:bg-gray-800">
@@ -29,6 +29,7 @@ const SignUp = () => {
           onClick={() => {
             singUp();
           }}
+          isLoading={loading}
         />
         <div className="text-sm font-medium text-gray-900 dark:text-white">
           Already have an account?{" "}

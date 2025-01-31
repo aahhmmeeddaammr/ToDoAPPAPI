@@ -15,6 +15,7 @@ const UseSignUp = () => {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [loading , setLoading] = useState(false)
   const navigate = useNavigate()
   const Fields: InputFiled[] = [
     {
@@ -40,6 +41,7 @@ const UseSignUp = () => {
     },
   ];
   const singUp = () => {
+    setLoading(true)
     const user: SingUpAPIData = {
       email: userEmail,
       password: userPassword,
@@ -53,9 +55,12 @@ const UseSignUp = () => {
       })
       .catch((err) => {
         toast.error(err.response.data.Data?err.response.data.Data:err.response.data.error)
+      }).finally(()=>{
+        setLoading(false)
       });
   };
   return {
+    loading,
     Fields,
     userName,
     setUserName,

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Base_URL } from "../../lib/API";
+import { useTaskServices } from "../Home/TaskServices/TaskServices";
 
 const useTaskDialog = (taskId: number) => {
   const [task, setTask] = useState<ITask | null>(null);
@@ -8,7 +9,7 @@ const useTaskDialog = (taskId: number) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState("");
   const [editedDescription, setEditedDescription] = useState("");
-
+  const { getAllTasks } = useTaskServices();
   const getTask = () => {
     axios
       .get(`${Base_URL}/task/get-task/${taskId}`, {
@@ -57,6 +58,7 @@ const useTaskDialog = (taskId: number) => {
             ? { ...prev, Title: editedTitle, Description: editedDescription }
             : null
         );
+        getAllTasks();
         setIsEditing(false);
       })
       .finally(() => setLoading(false));

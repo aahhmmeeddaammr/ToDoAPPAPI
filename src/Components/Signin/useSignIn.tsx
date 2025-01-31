@@ -12,7 +12,7 @@ interface SingInAPIData {
 const UseSignIn = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
-
+  const [loading , setLoading] = useState(false)
   const navigate = useNavigate()
   const Fields: InputFiled[] = [
     {
@@ -31,6 +31,7 @@ const UseSignIn = () => {
     },
   ];
   const singIn = () => {
+    setLoading(true)
     const user: SingInAPIData = {
       email: userEmail,
       password: userPassword,
@@ -47,6 +48,8 @@ const UseSignIn = () => {
             ? err.response.data.Data
             : err.response.data.error
         );
+      }).finally(()=>{
+        setLoading(false)
       });
   };
   return {
@@ -56,6 +59,7 @@ const UseSignIn = () => {
     userPassword,
     setUserPassword,
     singIn,
+    loading
   };
 };
 
