@@ -1,53 +1,24 @@
-import { useEffect, useState } from "react";
 import Button from "../Button/Button";
-import axios from "axios";
-import { Base_URL } from "../../lib/API";
+import useTaskDialog from "./useTaskDialog";
 
 interface TaskDialogProps {
   taskId: number;
 }
 
 const TaskDialog = ({ taskId }: TaskDialogProps) => {
-  const [task, setTask] = useState<ITask | null>(null);
-  const [loading, setLoading] = useState(false);
-  const Finalize = () => {
-    setLoading(true);
-    axios
-      .patch(
-        `${Base_URL}/task/finalize-task/${taskId}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then(({ data }) => {
-        console.log(data);
-        getTask();
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-  const getTask = () => {
-    axios
-      .get(`${Base_URL}/task/get-task/${taskId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then(({ data }) => {
-        console.log(data.Data);
-        setTask(data.Data);
-      });
-  };
-  useEffect(() => {
-    getTask();
-  }, []);
+  const {
+    editedDescription,
+    editedTitle,
+    isEditing,
+    loading,
+    setEditedDescription,
+    setEditedTitle,
+    setIsEditing,
+    task,
+    updateTask,
+    finalizeTask
+  } = useTaskDialog(taskId);
+
   return (
     <div
       onClick={(e) => {
@@ -60,13 +31,30 @@ const TaskDialog = ({ taskId }: TaskDialogProps) => {
       <div className="space-y-4">
         <div>
           <h3 className="text-sm font-medium text-gray-500">Title</h3>
-          <p className="text-lg font-semibold">{task?.Title}</p>
+          {isEditing ? (
+            <input
+              type="text"
+              value={editedTitle}
+              onChange={(e) => setEditedTitle(e.target.value)}
+              className="border border-gray-300 p-2 rounded w-full"
+            />
+          ) : (
+            <p className="text-lg font-semibold">{task?.Title}</p>
+          )}
         </div>
 
         {task?.Description && (
           <div>
             <h3 className="text-sm font-medium text-gray-500">Description</h3>
-            <p className="text-gray-700">{task?.Description}</p>
+            {isEditing ? (
+              <textarea
+                value={editedDescription}
+                onChange={(e) => setEditedDescription(e.target.value)}
+                className="border border-gray-300 p-2 rounded w-full"
+              />
+            ) : (
+              <p className="text-gray-700">{task?.Description}</p>
+            )}
           </div>
         )}
 
@@ -89,11 +77,23 @@ const TaskDialog = ({ taskId }: TaskDialogProps) => {
           </p>
         </div>
       </div>
-      <div className="flex justify-between w-5/6 gap-x-3">
+      <div className="flex justify-between w-full gap-x-3 mt-4">
+        {isEditing ? (
+          <Button
+            onClick={updateTask}
+            label="Save"
+            variant="Primary"
+            isLoading={loading}
+          />
+        ) : (
+          <Button
+            onClick={() => setIsEditing(true)}
+            label="Update"
+            variant="Update"
+          />
+        )}
         <Button
-          onClick={() => {
-            Finalize();
-          }}
+          onClick={finalizeTask}
           label="Finalize"
           variant="Primary"
           isLoading={loading}
