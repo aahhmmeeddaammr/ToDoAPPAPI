@@ -1,22 +1,23 @@
-package com.API.ToDoAPP.Models;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
-import java.util.Date;
-
 @Entity
 public class Task {
     @Id
-    @GeneratedValue
-    public int id;
-    public String Title;
-    public String Description;
-    public boolean Done;
-    public Date createdAt = new Date();
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    
+    private String Title;
+    private String Description;
+    private boolean Done;
+    private Date createdAt = new Date();
+
+    @ManyToOne
+    @JoinColumn(name = "admin_id", nullable = false)  // Creates admin_id foreign key
+    private Admin admin;
 
     public Date getCreatedAt() {
         return createdAt;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
 }
