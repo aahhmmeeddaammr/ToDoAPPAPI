@@ -1,4 +1,4 @@
-# Use a valid Maven image with OpenJDK 17 or 21
+# Use a valid Maven image with OpenJDK 17
 FROM maven:3.8.5-openjdk-17 AS build
 
 # Set working directory inside the container
@@ -10,8 +10,8 @@ COPY . .
 # Build the application
 RUN mvn clean package -DskipTests
 
-# Use a valid OpenJDK runtime image
-FROM eclipse-temurin:21-jdk-slim
+# Use a stable OpenJDK runtime image
+FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the built JAR from the previous stage
