@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +26,8 @@ public class TaskService {
     public ResponseEntity<APIResponse> getAllTasks(int userId) {
         Admin admin = adminRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         List<Task> tasks = admin.getTasks();
-        return ResponseEntity.ok(new GetResponse<>(200,tasks));
+        tasks.sort(Comparator.comparing(Task::getCreatedAt));
+        return ResponseEntity.ok(new GetResponse<>(200,tasks.reversed()));
     }
     public ResponseEntity<APIResponse> getTaskById( int userId, int taskId) {
         Admin admin = adminRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
