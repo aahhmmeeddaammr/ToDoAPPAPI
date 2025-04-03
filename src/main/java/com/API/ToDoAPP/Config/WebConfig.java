@@ -18,10 +18,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOrigins("https://to-do-appapi.vercel.app") // Frontend URL
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS" ,"PATCH")
+                .allowedOrigins("https://to-do-appapi.vercel.app")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
                 .allowedHeaders("*")
-                .exposedHeaders("Authorization") // Allow client to read Authorization headers
-                .allowCredentials(true); // Enable cookies or authorization headers
+                .exposedHeaders("Authorization")
+                .allowCredentials(true);
     }
 }

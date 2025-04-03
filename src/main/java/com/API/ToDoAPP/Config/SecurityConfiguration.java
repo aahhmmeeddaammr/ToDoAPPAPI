@@ -12,7 +12,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -31,6 +30,7 @@ public class SecurityConfiguration {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS with the configuration
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/register", "/api/v1/auth/login").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll() // ✅ Allow OPTIONS preflight
                         .requestMatchers("/api/v1/task/**").authenticated()
                         .anyRequest().authenticated()
                 )
@@ -46,11 +46,11 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("https://to-do-appapi.vercel.app"); // Frontend URL
-        configuration.addAllowedMethod("*"); // Allow all HTTP methods
-        configuration.addAllowedHeader("*"); // Allow all headers
-        configuration.setAllowCredentials(true); // Allow credentials (cookies, etc.)
-        configuration.addExposedHeader("Authorization"); // Expose Authorization header to client
+        configuration.addAllowedOrigin("https://to-do-appapi.vercel.app"); // ✅ Frontend URL
+        configuration.addAllowedMethod("*"); // ✅ Allow all HTTP methods
+        configuration.addAllowedHeader("*"); // ✅ Allow all headers
+        configuration.setAllowCredentials(true); // ✅ Allow credentials (cookies, etc.)
+        configuration.addExposedHeader("Authorization"); // ✅ Expose Authorization header
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
