@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/task")
-@CrossOrigin(origins = "https://to-do-appapi.vercel.app/", allowedHeaders = "*")
+@CrossOrigin(origins = "https://to-do-appapi.vercel.app", allowedHeaders = "*")
 public class TaskController {
 
     @Autowired
