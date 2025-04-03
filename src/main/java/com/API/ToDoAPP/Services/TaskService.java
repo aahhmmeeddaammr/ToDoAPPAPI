@@ -4,6 +4,7 @@ import com.API.ToDoAPP.Controllers.ApiResponses.APIResponse;
 import com.API.ToDoAPP.Controllers.ApiResponses.GetResponse;
 import com.API.ToDoAPP.Controllers.ControllersParams.AddTaskParams;
 import com.API.ToDoAPP.Controllers.ControllersParams.UpdateTaskParams;
+import com.API.ToDoAPP.DTOs.TaskDTO;
 import com.API.ToDoAPP.Models.Admin;
 import com.API.ToDoAPP.Models.Task;
 import com.API.ToDoAPP.Repositories.AdminRepository;
@@ -31,7 +32,8 @@ public class TaskService {
         Admin admin = adminRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("Admin not found"));
         List<Task> tasks = new ArrayList<>(admin.tasks);
         tasks.sort(Comparator.comparing(task -> task.createdAt, Comparator.reverseOrder()));
-        return ResponseEntity.ok(new GetResponse<>(200, tasks));
+        var result = tasks.stream().map(TaskDTO::new).toArray();
+        return ResponseEntity.ok(new GetResponse<>(200, result));
     }
 
     public ResponseEntity<APIResponse> getTaskById(int userId, int taskId) {
@@ -41,7 +43,7 @@ public class TaskService {
         if (!admin.tasks.contains(task)) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(new GetResponse<>(200, task));
+        return ResponseEntity.ok(new GetResponse<>(200, new TaskDTO(task)));
     }
 
     public ResponseEntity<APIResponse> addTask(int userId, AddTaskParams params) {
@@ -57,7 +59,7 @@ public class TaskService {
         taskRepository.save(task);
         adminRepository.save(admin);
 
-        return ResponseEntity.ok(new GetResponse<>(200, task));
+        return ResponseEntity.ok(new GetResponse<>(200, new TaskDTO(task)));
     }
 
     public ResponseEntity<APIResponse> updateTask(int taskId, int userId, UpdateTaskParams params) {
@@ -77,7 +79,7 @@ public class TaskService {
         task.createdAt = new Date();
         taskRepository.save(task);
 
-        return ResponseEntity.ok(new GetResponse<>(200, task));
+        return ResponseEntity.ok(new GetResponse<>(200, new TaskDTO(task)));
     }
 
     public ResponseEntity<APIResponse> deleteTask(int taskId, int userId) {
@@ -105,6 +107,6 @@ public class TaskService {
         task.Done = !task.Done;
         taskRepository.save(task);
 
-        return ResponseEntity.ok(new GetResponse<>(200, task));
+        return ResponseEntity.ok(new GetResponse<>(200, new TaskDTO(task)));
     }
 }
