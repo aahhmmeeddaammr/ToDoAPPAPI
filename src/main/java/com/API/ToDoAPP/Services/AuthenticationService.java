@@ -54,12 +54,9 @@ public class AuthenticationService {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(new GetResponse<>(401, "Invalid email or password"));
             }
-        } catch (BadCredentialsException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(new GetResponse<>(401, "Invalid email or password"));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new GetResponse<>(500, "An unexpected error occurred"));
         }
     }
 

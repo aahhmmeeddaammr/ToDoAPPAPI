@@ -2,7 +2,11 @@ package com.API.ToDoAPP.Controllers.ControllersParams;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class AddTaskParams {
 
     @NotBlank(message = "Title is required")

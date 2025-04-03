@@ -14,7 +14,7 @@ public class Admin extends User implements UserDetails {
     }
     
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Task> tasks = new ArrayList<>();
+    public List<Task> tasks = new ArrayList<>();
     
     public List<Task> getTasks() {
         return tasks;
